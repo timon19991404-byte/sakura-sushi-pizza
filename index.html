@@ -35,7 +35,7 @@ footer{text-align:center;padding:24px 14px;color:var(--muted);font-size:12px}
 <main><div id="menu"></div><section class="cartpanel" id="order"><h2 class="section-title">🛒 Заказ себети</h2><div id="cartItems">Азырынча себет бош.</div><p><strong>Товарлардын суммасы: <span id="total">0</span> сом</strong></p><small style="color:#766a70">Жеткирүү акысы аралыкка жараша өзүнчө эсептелет.</small><form id="orderForm"><input id="customerName" placeholder="Атыңыз" required><input id="customerPhone" type="tel" placeholder="Телефон номериңиз" required><textarea id="customerAddress" placeholder="Жеткирүү дареги" required></textarea><textarea id="customerNote" placeholder="Кошумча каалоо (милдеттүү эмес)"></textarea><button class="send" type="submit">WhatsApp аркылуу заказ берүү</button></form></section></main>
 <footer>🌸 САКУРА • Суши жана пицца жеткирүү<br>WhatsApp: +996 503 141 501 • Телефон: +996 506 991 404</footer>
 <script>
-const products=[
+constproducts=[
 {name:'Лава',cat:'Муздак роллдор',price:240,img:'lava.png',desc:'Күрүч, Philadelphia сыры, краб, бадыраң, Лава соусу · 8 даана · 240 г'},
 {name:'Сливочный',cat:'Муздак роллдор',price:220,img:'slivochny.png',desc:'Күрүч, Philadelphia сыры, лосось, бадыраң, тобико · 8 даана · 220 г'},
 {name:'Калифорния с лососем',cat:'Муздак роллдор',price:230,img:'kaliforniya-s-lososem.png',desc:'Лосось, Philadelphia сыры, бадыраң, тобико, күрүч · 8 даана · 230 г'},
@@ -102,8 +102,7 @@ function change(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0)delete cart[i];renderC
 function renderCart(){const root=document.getElementById('cartItems');root.innerHTML='';const ids=Object.keys(cart);if(!ids.length){root.textContent='Азырынча себет бош.'}let total=0;ids.forEach(k=>{const p=products[k],q=cart[k];total+=p.price*q;const line=document.createElement('div');line.className='cartline';const name=document.createElement('span');name.textContent=p.name+' × '+q;const right=document.createElement('span');right.textContent=(p.price*q)+' сом ';const minus=document.createElement('button');minus.textContent='−';minus.onclick=()=>change(k,-1);const plus=document.createElement('button');plus.textContent='+';plus.onclick=()=>change(k,1);right.append(minus,plus);line.append(name,right);root.appendChild(line)});document.getElementById('total').textContent=total;document.getElementById('cartCount').textContent=Object.values(cart).reduce((a,b)=>a+b,0);document.getElementById('cartSum').textContent=total}
 document.getElementById('orderForm').addEventListener('submit',e=>{e.preventDefault();const ids=Object.keys(cart);if(!ids.length){alert('Адегенде менюдан баасы көрсөтүлгөн товарды себетке кошуңуз. Баасы тактала элек товарлар боюнча WhatsAppка өзүнчө кайрылсаңыз болот.');return}let msg='САКУРА заказ%0A';ids.forEach(k=>{const p=products[k];msg+=encodeURIComponent(p.name+' × '+cart[k]+' — '+(p.price*cart[k])+' сом')+'%0A'});msg+='%0AЖалпы сумма: '+document.getElementById('total').textContent+' сом%0A';msg+='Аты: '+encodeURIComponent(document.getElementById('customerName').value)+'%0A';msg+='Телефон: '+encodeURIComponent(document.getElementById('customerPhone').value)+'%0A';msg+='Дарек: '+encodeURIComponent(document.getElementById('customerAddress').value)+'%0A';msg+='Кошумча: '+encodeURIComponent(document.getElementById('customerNote').value);window.location.href='https://wa.me/996503141501?text='+msg});
 renderMenu();renderCart();
-</script>
-  
+</script> 
 <script>
 (async () => {
   const URL = 'https://esnmfwhzwrmcvokfgqld.supabase.co';
@@ -118,18 +117,14 @@ renderMenu();renderCart();
         }
       }
     );
-
     if (!response.ok) return;
-
     const products = await response.json();
-
     document.querySelectorAll('.card').forEach(card => {
       const name = card.querySelector('.name')?.textContent?.trim();
       const product = products.find(
         item => item.name?.trim().toLowerCase() === name.trim().toLowerCase() && item.image_url
       );
       const img = card.querySelector('img');
-
       if (product && img) {
         img.src = product.image_url;
         img.style.display = '';
