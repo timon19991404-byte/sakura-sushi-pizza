@@ -89,9 +89,11 @@ const qty=document.createElement('div');qty.textContent=cart[i]?'🛒 Себет
 const controls=document.createElement('div');
 const minus=document.createElement('button');
 minus.textContent='−';
+   minus.style.cssText='width:52px;height:46px;font-size:28px;font-weight:bold;border:0;border-radius:12px;background:#f8dce5;color:#b52d50;margin-right:8px;';                                                                                                                                                                                 
 minus.onclick=()=>change(i,-1);
 const plus=document.createElement('button');
-plus.textContent='+';
+plus.textContent='+'
+  ;plus.style.cssText='width:52px;height:46px;font-size:28px;font-weight:bold;border:0;border-radius:12px;background:#b52d50;color:white;';
 plus.onclick=()=>add(i);
 controls.append(minus,plus);
 info.appendChild(controls);card.append(img,info);g.appendChild(card)})}
