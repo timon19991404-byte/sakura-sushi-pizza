@@ -91,5 +91,42 @@ function renderCart(){const root=document.getElementById('cartItems');root.inner
 document.getElementById('orderForm').addEventListener('submit',e=>{e.preventDefault();const ids=Object.keys(cart);if(!ids.length){alert('Адегенде менюдан баасы көрсөтүлгөн товарды себетке кошуңуз. Баасы тактала элек товарлар боюнча WhatsAppка өзүнчө кайрылсаңыз болот.');return}let msg='САКУРА заказ%0A';ids.forEach(k=>{const p=products[k];msg+=encodeURIComponent(p.name+' × '+cart[k]+' — '+(p.price*cart[k])+' сом')+'%0A'});msg+='%0AЖалпы сумма: '+document.getElementById('total').textContent+' сом%0A';msg+='Аты: '+encodeURIComponent(document.getElementById('customerName').value)+'%0A';msg+='Телефон: '+encodeURIComponent(document.getElementById('customerPhone').value)+'%0A';msg+='Дарек: '+encodeURIComponent(document.getElementById('customerAddress').value)+'%0A';msg+='Кошумча: '+encodeURIComponent(document.getElementById('customerNote').value);window.location.href='https://wa.me/996503141501?text='+msg});
 renderMenu();renderCart();
 </script>
+  
+<script>
+(async () => {
+  const URL = 'https://esnmfwhzwrmcvokfgqld.supabase.co';
+  const KEY='sb_publishable_HJu0aBiE_jlPhD644iI_pw_j6grrjiq';
+  try {
+    const response = await fetch(
+      URL + '/rest/v1/sakura_products?select=name,image_url&image_url=not.is.null',
+      {
+        headers: {
+          apikey: KEY,
+          Authorization: 'Bearer ' + KEY
+        }
+      }
+    );
+
+    if (!response.ok) return;
+
+    const products = await response.json();
+
+    document.querySelectorAll('.card').forEach(card => {
+      const name = card.querySelector('.name')?.textContent?.trim();
+      const product = products.find(
+        item => item.name?.trim() === name && item.image_url
+      );
+      const img = card.querySelector('img');
+
+      if (product && img) {
+        img.src = product.image_url;
+        img.style.display = '';
+      }
+    });
+  } catch (error) {
+    console.log('Сүрөттөрдү жүктөө катасы:', error);
+  }
+})();
+</script>
 </body>
 </html>
