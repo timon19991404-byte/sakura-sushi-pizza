@@ -114,7 +114,7 @@ renderMenu();renderCart();
     document.querySelectorAll('.card').forEach(card => {
       const name = card.querySelector('.name')?.textContent?.trim();
       const product = products.find(
-        item => item.name?.trim() === name && item.image_url
+        item => item.name?.trim().toLowerCase() === name.trim().toLowerCase() && item.image_url
       );
       const img = card.querySelector('img');
 
