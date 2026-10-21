@@ -1,16 +1,95 @@
 <!DOCTYPE html>
-<html lang="ky"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#b51f36"><title>САКУРА | Суши жана пицца</title>
-<style>*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#fffaf8;color:#292222}header{background:#b51f36;color:white;text-align:center;padding:24px 12px}.logo{font-size:36px;font-weight:bold;letter-spacing:3px}nav{display:flex;justify-content:center;gap:18px;padding:14px;background:white;position:sticky;top:0}nav a{color:#a51e34;text-decoration:none;font-weight:bold}.hero{text-align:center;padding:32px 15px;background:#fbe8e9}.hero h1,h2{color:#a51e34}section{padding:24px 14px;max-width:950px;margin:auto}.btn{background:#b51f36;color:white;border:0;border-radius:9px;padding:12px 16px;font-weight:bold;text-decoration:none;cursor:pointer}.categories{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.categories button{border:1px solid #b51f36;color:#a51e34;background:white;padding:10px;border-radius:20px}.categories .active{background:#b51f36;color:white}.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-top:18px}.item{background:white;border:1px solid #f0dddd;border-radius:12px;padding:14px;text-align:center}.emoji{font-size:40px}.item h3{font-size:16px}.price{color:#b51f36;font-weight:bold;margin:10px}.item button{background:#b51f36;color:white;border:0;border-radius:7px;padding:10px;width:100%}.note{background:#fff0f0;padding:14px;border-radius:10px;line-height:1.7}#cart{background:white;border:1px solid #f0dddd;border-radius:10px;padding:12px}.cartrow{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #eee}input,textarea,select{width:100%;padding:12px;margin:6px 0 12px;border:1px solid #d9caca;border-radius:8px;font:inherit}label{font-weight:bold;font-size:14px}footer{background:#321e22;color:white;text-align:center;padding:24px;line-height:1.8}.small{font-size:13px;color:#756568}</style></head>
-<body><header><div class="logo">🌸 САКУРА</div><p>Суши • Роллы • Пицца</p><p>Араван району боюнча жеткирүү</p></header><nav><a href="#menu">Меню</a><a href="#delivery">Жеткирүү</a><a href="#order">Заказ берүү</a></nav><div class="hero"><h1>Сүйүү менен даярдалат ❤️</h1><p>Даамдуу роллдор жана ысык пицца.<br>Заказды тандап, WhatsApp аркылуу жөнөтүңүз.</p><a class="btn" href="#menu">Менюну көрүү</a></div>
-<section id="menu"><h2 style="text-align:center">🍣 Биздин меню</h2><div class="categories" id="categories"><button class="active" data-cat="Баары">Баары</button><button data-cat="Роллдор">Роллдор</button><button data-cat="Автордук">Автордук</button><button data-cat="Сеттер">Сеттер</button><button data-cat="Пицца">Пицца</button></div><div class="menu" id="products"></div></section><section id="delivery"><h2 style="text-align:center">🛵 Жеткирүү</h2><div class="note">📍 Жеткирүү аймагы: <b>Араван району</b><br>💰 Жеткирүү акысы аралыкка жараша эсептелет. Баасын заказды ырастоодо тактайбыз.</div></section>
-<section id="order"><h2 style="text-align:center">🛒 Заказ себети</h2><div id="cart">Азырынча себет бош.</div><p><b>Тамактардын суммасы: <span id="total">0</span> сом</b></p><label for="customer">Атыңыз</label><input id="customer" placeholder="Атыңызды жазыңыз"><label for="phone">Телефон номериңиз</label><input id="phone" type="tel" placeholder="0XXX XXXXXX"><label for="address">Жеткирүү дареги</label><textarea id="address" rows="2" placeholder="Айыл, көчө, үй номер"></textarea><label for="deliverytype">Заказды алуу</label><select id="deliverytype"><option>Жеткирүү</option><option>Өзүм алып кетем</option></select><label for="comment">Кошумча каалоо</label><textarea id="comment" rows="2" placeholder="Кошумча каалоо"></textarea><button class="btn" style="width:100%" onclick="sendOrder()">WhatsApp аркылуу заказ берүү</button><p class="small">WhatsApp ачылганда заказды жөнөтүү үчүн Send басыңыз.</p></section><footer><b>🌸 САКУРА</b><br>Суши жана пицца жеткирүү<br>Араван району, Ош облусу<br><span class="small">Телефон жана иш убактысы кийин кошулат.</span></footer>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#b52f4c">
+<title>САКУРА — Sushi & Pizza</title>
+<style>
+:root{--red:#b52f4c;--pink:#fff1f4;--ink:#29232a;--muted:#766a70;--line:#f0d6dd;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:#fffafb;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:linear-gradient(135deg,#fff1f4,#fff);border-bottom:1px solid var(--line);padding:18px 14px 15px;text-align:center}
+.logo{font-size:30px;font-weight:900;letter-spacing:3px;color:var(--red)}.sub{font-size:12px;color:var(--muted);margin-top:5px}
+.hero{padding:18px 14px 12px;text-align:center}.hero h1{font-size:24px;margin:3px 0 8px}.hero p{font-size:14px;color:var(--muted);margin:0 auto 12px;max-width:480px}
+.contact{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.contact a,.cartbtn{background:var(--red);color:white;text-decoration:none;padding:11px 14px;border-radius:12px;font-weight:700;border:0}
+.notice{margin:12px 14px;padding:12px;border-radius:12px;background:var(--pink);color:#7b3447;font-size:13px;text-align:center}
+.sticky{position:sticky;top:0;z-index:5;background:#fffafb;border-block:1px solid var(--line);padding:10px;display:flex;gap:8px;overflow-x:auto}
+.cat{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--red);border-radius:22px;padding:9px 13px;font-weight:700}.cat.active{background:var(--red);color:white}
+main{padding:14px;max-width:1000px;margin:auto}.section-title{font-size:20px;margin:12px 0;color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:white;border:1px solid var(--line);border-radius:15px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#fff1f4}.info{padding:10px;display:flex;flex-direction:column;gap:7px;flex:1}
+.name{font-weight:800;font-size:15px}.desc{font-size:12px;color:var(--muted);line-height:1.35}.price{font-weight:800;color:var(--red);margin-top:auto}.add{border:0;border-radius:10px;padding:10px;background:var(--red);color:#fff;font-weight:700}.add:disabled{background:#c9b9bd;color:#fff}
+.cartpanel{margin:18px 0;background:white;border:1px solid var(--line);border-radius:16px;padding:14px}.cartline{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}.qty button{border:1px solid var(--line);background:var(--pink);border-radius:6px;padding:3px 8px}
+form{display:grid;gap:9px;margin-top:12px}input,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:white}textarea{min-height:70px;resize:vertical}.send{padding:13px;border:0;border-radius:12px;background:#218b52;color:white;font-size:16px;font-weight:800}
+footer{text-align:center;padding:24px 14px;color:var(--muted);font-size:12px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero h1{font-size:30px}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header><div class="logo">🌸 САКУРА</div><div class="sub">SUSHI • ROLLS • PIZZA • ДОСТАВКА</div></header>
+<section class="hero"><h1>Даамдуу көз ирмемдер</h1><p>Сүйүктүү роллдоруңузду жана пиццаңызды тандаңыз. Заказ WhatsApp аркылуу жөнөтүлөт.</p><div class="contact"><a href="https://wa.me/996503141501" target="_blank" rel="noopener">WhatsApp заказ</a><a href="tel:+996506991404">Чалуу: +996 506 991 404</a></div></section>
+<div class="notice">🛵 Араван району боюнча жеткирүү. Жеткирүү акысы аралыкка жараша эсептелет.</div>
+<nav class="sticky" id="categories"></nav>
+<main><div id="menu"></div><section class="cartpanel" id="order"><h2 class="section-title">🛒 Заказ себети</h2><div id="cartItems">Азырынча себет бош.</div><p><strong>Товарлардын суммасы: <span id="total">0</span> сом</strong></p><small style="color:#766a70">Жеткирүү акысы аралыкка жараша өзүнчө эсептелет.</small><form id="orderForm"><input id="customerName" placeholder="Атыңыз" required><input id="customerPhone" type="tel" placeholder="Телефон номериңиз" required><textarea id="customerAddress" placeholder="Жеткирүү дареги" required></textarea><textarea id="customerNote" placeholder="Кошумча каалоо (милдеттүү эмес)"></textarea><button class="send" type="submit">WhatsApp аркылуу заказ берүү</button></form></section></main>
+<footer>🌸 САКУРА • Суши жана пицца жеткирүү<br>WhatsApp: +996 503 141 501 • Телефон: +996 506 991 404</footer>
 <script>
 const products=[
-{name:'Лава',cat:'Роллдор',price:240,desc:'8 даана • 240 г',emoji:'🍣'},{name:'Сливочный',cat:'Роллдор',price:220,desc:'8 даана • 220 г',emoji:'🍣'},{name:'Калифорния с лососем',cat:'Роллдор',price:230,desc:'8 даана • 230 г',emoji:'🍣'},{name:'Аляска',cat:'Роллдор',price:230,desc:'8 даана • 230 г',emoji:'🍣'},{name:'Классическая Калифорния',cat:'Роллдор',price:220,desc:'8 даана • 230 г',emoji:'🍣'},
-{name:'Салмон Спайси',cat:'Автордук',price:0,desc:'Баасы такталат',emoji:'🌶️'},{name:'Фьюжн',cat:'Автордук',price:0,desc:'Баасы такталат',emoji:'🍣'},{name:'Салмон Крейзи',cat:'Автордук',price:0,desc:'Баасы такталат',emoji:'🐟'},{name:'Драгон Крейзи',cat:'Автордук',price:0,desc:'Баасы такталат',emoji:'🐉'},{name:'Лавли Ролл',cat:'Автордук',price:0,desc:'Баасы такталат',emoji:'🌸'},{name:'Эби Крейзи',cat:'Автордук',price:0,desc:'Баасы такталат',emoji:'🍤'},{name:'Миндаль Ролл',cat:'Автордук',price:0,desc:'Баасы такталат',emoji:'🥜'},
-{name:'School сет',cat:'Сеттер',price:0,desc:'Баасы такталат',emoji:'🍱'},{name:'Темпура сет',cat:'Сеттер',price:0,desc:'Баасы такталат',emoji:'🍱'},{name:'Запечённый сет',cat:'Сеттер',price:0,desc:'Баасы такталат',emoji:'🍱'},
-{name:'Пепперони',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'},{name:'4 сыра',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'},{name:'Мясная',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'},{name:'Грибная',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'},{name:'Chicken Hot',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'},{name:'Филадельфия',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'},{name:'Пепперони BBQ',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'},{name:'Chicken BBQ',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'},{name:'Маргарита',cat:'Пицца',price:0,desc:'30 см • Баасы такталат',emoji:'🍕'}];let cart={};
-function renderProducts(cat='Баары'){let el=document.getElementById('products');el.innerHTML='';products.filter(p=>cat==='Баары'||p.cat===cat).forEach(p=>{let i=products.indexOf(p);el.innerHTML+=`<div class="item"><div class="emoji">${p.emoji}</div><h3>${p.name}</h3><div class="small">${p.desc}</div><div class="price">${p.price?p.price+' сом':'Баасы такталат'}</div><button onclick="add(${i})">+ Себетке кошуу</button></div>`})}document.getElementById('categories').addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;document.querySelectorAll('.categories button').forEach(b=>b.classList.remove('active'));e.target.classList.add('active');renderProducts(e.target.dataset.cat)});
-function add(i){cart[i]=(cart[i]||0)+1;renderCart()}function change(i,n){cart[i]+=n;if(cart[i]<=0)delete cart[i];renderCart()}function renderCart(){let el=document.getElementById('cart'),total=0,ids=Object.keys(cart);if(!ids.length)el.innerHTML='Азырынча себет бош.';else el.innerHTML=ids.map(k=>{let p=products[k];if(p.price)total+=p.price*cart[k];return `<div class="cartrow"><span>${p.name} × ${cart[k]}</span><span>${p.price?p.price*cart[k]+' сом':'Баасы такталат'} <button onclick="change(${k},-1)">−</button> <button onclick="change(${k},1)">+</button></span></div>`}).join('');document.getElementById('total').textContent=total}
-function sendOrder(){let ids=Object.keys(cart);if(!ids.length){alert('Алгач менюдан тамак тандаңыз.');return}let name=document.getElementById('customer').value.trim(),phone=document.getElementById('phone').value.trim(),address=document.getElementById('address').value.trim();if(!name||!phone){alert('Атыңызды жана телефонуңузду жазыңыз.');return}let total=0,lines=ids.map(k=>{let p=products[k];if(p.price)total+=p.price*cart[k];return `${p.name} x ${cart[k]} — ${p.price?p.price*cart[k]+' сом':'баасын тактоо керек'}`});let msg=`🌸 САКУРА — ЖАҢЫ ЗАКАЗ\n\n${lines.join('\n')}\n\nТамактардын суммасы: ${total} сом\nЗаказды алуу: ${document.getElementById('deliverytype').value}\nАты: ${name}\nТелефон: ${phone}\nДарек: ${address||'Кийин такталат'}\nКошумча: ${document.getElementById('comment').value||'Жок'}\nЖеткирүү акысы аралыкка жараша такталат.`;window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank')}renderProducts();renderCart();
-</script></body></html>
+{name:'Лава',cat:'Муздак роллдор',price:240,img:'lava.png',desc:'Күрүч, Philadelphia сыры, краб, бадыраң, Лава соусу · 8 даана · 240 г'},
+{name:'Сливочный',cat:'Муздак роллдор',price:220,img:'slivochny.png',desc:'Күрүч, Philadelphia сыры, лосось, бадыраң, тобико · 8 даана · 220 г'},
+{name:'Калифорния с лососем',cat:'Муздак роллдор',price:230,img:'kaliforniya-s-lososem.png',desc:'Лосось, Philadelphia сыры, бадыраң, тобико, күрүч · 8 даана · 230 г'},
+{name:'Аляска',cat:'Муздак роллдор',price:230,img:'roll-alyaska.png',desc:'Лосось, Philadelphia сыры, терияки, бадыраң, кунжут, нори · 8 даана · 230 г'},
+{name:'Классическая Калифорния',cat:'Муздак роллдор',price:220,img:'klassicheskaya-kaliforniya.png',desc:'Күрүч, краб, Philadelphia сыры, бадыраң, тобико · 8 даана · 230 г'},
+{name:'Филадельфия',cat:'Муздак роллдор',price:null,img:'filadelfiya.png',desc:'Баасы такталат'},
+{name:'Филадельфия с огурцом',cat:'Муздак роллдор',price:null,img:'filadelfiya-s-ogurcom.png',desc:'Баасы такталат'},
+{name:'Калифорния Темпура',cat:'Куурулган роллдор',price:null,img:'kaliforniya-tempura.png',desc:'Баасы такталат'},
+{name:'Филадельфия Темпура',cat:'Куурулган роллдор',price:null,img:'filadelfiya-tempura.png',desc:'Баасы такталат'},
+{name:'Эби Темпура',cat:'Куурулган роллдор',price:null,img:'ebi-tempura.jpg',desc:'Баасы такталат'},
+{name:'Темпура ролл',cat:'Куурулган роллдор',price:null,img:'tempura-roll.png',desc:'Баасы такталат'},
+{name:'Фурай Темпура',cat:'Куурулган роллдор',price:null,img:'furai-tempura.png',desc:'Баасы такталат'},
+{name:'Томаго Темпура',cat:'Куурулган роллдор',price:null,img:'tomago-tempura.png',desc:'Баасы такталат'},
+{name:'Цезарь Темпура',cat:'Куурулган роллдор',price:null,img:'cezar-tempura.png',desc:'Баасы такталат'},
+{name:'Эби Москва',cat:'Запечённый роллдор',price:null,img:'ebi-moskva.png',desc:'Баасы такталат'},
+{name:'Москва',cat:'Запечённый роллдор',price:null,img:'moskva.png',desc:'Баасы такталат'},
+{name:'Chicken Hot',cat:'Запечённый роллдор',price:null,img:'roll-chicken-hot.png',desc:'Баасы такталат'},
+{name:'Салмон Спайси',cat:'Автордук роллдор',price:null,img:'salmon-spice.png',desc:'Автордук ролл · баасы такталат'},
+{name:'Фьюжн',cat:'Автордук роллдор',price:null,img:'fusion.png',desc:'Автордук ролл · баасы такталат'},
+{name:'Салмон Крейзи',cat:'Автордук роллдор',price:null,img:'salmon-crazy.png',desc:'Автордук ролл · баасы такталат'},
+{name:'Драгон Крейзи',cat:'Автордук роллдор',price:null,img:'dragon-crazy.png',desc:'Автордук ролл · баасы такталат'},
+{name:'Лавли Ролл',cat:'Автордук роллдор',price:null,img:'lovely-roll.png',desc:'Автордук ролл · баасы такталат'},
+{name:'Эби Крейзи',cat:'Автордук роллдор',price:null,img:'ebi-crazy.png',desc:'Автордук ролл · баасы такталат'},
+{name:'Миндаль Ролл',cat:'Автордук роллдор',price:null,img:'almond-roll.png',desc:'Автордук ролл · баасы такталат'},
+{name:'Мини авокадо',cat:'Мини-роллдор',price:null,img:'mini-avocado.png',desc:'Баасы такталат'},
+{name:'Мини сыр',cat:'Мини-роллдор',price:null,img:'mini-cheese.png',desc:'Баасы такталат'},
+{name:'Мини бадыраң',cat:'Мини-роллдор',price:null,img:'mini-cucumber.png',desc:'Баасы такталат'},
+{name:'Мини лосось',cat:'Мини-роллдор',price:null,img:'mini-salmon.png',desc:'Баасы такталат'},
+{name:'Пепперони',cat:'Пицца 30 см',price:null,img:'pizza-pepperoni.png',desc:'30 см · баасы такталат'},
+{name:'4 сыр',cat:'Пицца 30 см',price:null,img:'pizza-four-cheese.png',desc:'30 см · баасы такталат'},
+{name:'Мясная',cat:'Пицца 30 см',price:null,img:'pizza-meat.png',desc:'30 см · баасы такталат'},
+{name:'Грибная',cat:'Пицца 30 см',price:null,img:'pizza-mushroom.png',desc:'30 см · баасы такталат'},
+{name:'Chicken Hot',cat:'Пицца 30 см',price:null,img:'pizza-chicken-hot.png',desc:'30 см · баасы такталат'},
+{name:'Филадельфия',cat:'Пицца 30 см',price:null,img:'pizza-philadelphia.png',desc:'30 см · баасы такталат'},
+{name:'Pepperoni BBQ',cat:'Пицца 30 см',price:null,img:'pizza-pepperoni-bbq.png',desc:'30 см · баасы такталат'},
+{name:'Chicken BBQ',cat:'Пицца 30 см',price:null,img:'pizza-chicken-bbq.png',desc:'30 см · баасы такталат'},
+{name:'Маргарита',cat:'Пицца 30 см',price:null,img:'pizza-margherita.png',desc:'30 см · баасы такталат'},
+{name:'Сан-Ремо',cat:'Башка роллдор',price:null,img:'san-remo.png',desc:'Баасы такталат'},
+{name:'Энако',cat:'Башка роллдор',price:null,img:'enako.png',desc:'Баасы такталат'},
+{name:'Каговаси',cat:'Башка роллдор',price:null,img:'kagovasi.png',desc:'Баасы такталат'},
+{name:'Яки Тори Маки',cat:'Башка роллдор',price:null,img:'yaki-tori-maki.png',desc:'Баасы такталат'},
+{name:'Ямайка',cat:'Башка роллдор',price:null,img:'yamaika.png',desc:'Баасы такталат'}
+];
+let cart={};let active='Баары';
+const cats=['Баары',...new Set(products.map(p=>p.cat))];
+const catEl=document.getElementById('categories');
+cats.forEach(c=>{const b=document.createElement('button');b.className='cat'+(c===active?' active':'');b.textContent=c;b.onclick=()=>{active=c;renderCats();renderMenu()};catEl.appendChild(b)});
+function renderCats(){[...catEl.children].forEach(b=>{b.classList.toggle('active',b.textContent===active)})}
+function renderMenu(){const root=document.getElementById('menu');root.innerHTML='';const shown=products.filter(p=>active==='Баары'||p.cat===active);let last='';shown.forEach((p)=>{if(p.cat!==last){const h=document.createElement('h2');h.className='section-title';h.textContent=p.cat;root.appendChild(h);const g=document.createElement('div');g.className='grid';g.id='g'+products.indexOf(p);root.appendChild(g);last=p.cat}const g=root.lastElementChild;const i=products.indexOf(p);const card=document.createElement('article');card.className='card';const img=document.createElement('img');img.src='assets/'+p.img;img.alt=p.name;img.loading='lazy';img.onerror=()=>{img.style.display='none'};const info=document.createElement('div');info.className='info';info.innerHTML='<div class="name"></div><div class="desc"></div><div class="price"></div>';info.querySelector('.name').textContent=p.name;info.querySelector('.desc').textContent=p.desc;info.querySelector('.price').textContent=p.price===null?'Баасы такталат':p.price+' сом';const btn=document.createElement('button');btn.className='add';btn.textContent=p.price===null?'Баасын тактоо':'Себетке кошуу';btn.disabled=p.price===null;btn.onclick=()=>add(i);info.appendChild(btn);card.append(img,info);g.appendChild(card)})}
+function add(i){cart[i]=(cart[i]||0)+1;renderCart()}
+function change(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0)delete cart[i];renderCart()}
+function renderCart(){const root=document.getElementById('cartItems');root.innerHTML='';const ids=Object.keys(cart);if(!ids.length){root.textContent='Азырынча себет бош.'}let total=0;ids.forEach(k=>{const p=products[k],q=cart[k];total+=p.price*q;const line=document.createElement('div');line.className='cartline';const name=document.createElement('span');name.textContent=p.name+' × '+q;const right=document.createElement('span');right.textContent=(p.price*q)+' сом ';const minus=document.createElement('button');minus.textContent='−';minus.onclick=()=>change(k,-1);const plus=document.createElement('button');plus.textContent='+';plus.onclick=()=>change(k,1);right.append(minus,plus);line.append(name,right);root.appendChild(line)});document.getElementById('total').textContent=total}
+document.getElementById('orderForm').addEventListener('submit',e=>{e.preventDefault();const ids=Object.keys(cart);if(!ids.length){alert('Адегенде менюдан баасы көрсөтүлгөн товарды себетке кошуңуз. Баасы тактала элек товарлар боюнча WhatsAppка өзүнчө кайрылсаңыз болот.');return}let msg='САКУРА заказ%0A';ids.forEach(k=>{const p=products[k];msg+=encodeURIComponent(p.name+' × '+cart[k]+' — '+(p.price*cart[k])+' сом')+'%0A'});msg+='%0AЖалпы сумма: '+document.getElementById('total').textContent+' сом%0A';msg+='Аты: '+encodeURIComponent(document.getElementById('customerName').value)+'%0A';msg+='Телефон: '+encodeURIComponent(document.getElementById('customerPhone').value)+'%0A';msg+='Дарек: '+encodeURIComponent(document.getElementById('customerAddress').value)+'%0A';msg+='Кошумча: '+encodeURIComponent(document.getElementById('customerNote').value);window.location.href='https://wa.me/996503141501?text='+msg});
+renderMenu();renderCart();
+</script>
+</body>
+</html>
