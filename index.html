@@ -29,36 +29,11 @@ footer{text-align:center;padding:24px 14px;color:var(--muted);font-size:12px}
   position:sticky;
   top:0;
   z-index:1000;
-  background:#fff1f4;
-  .top-fixed{
-  position:relative;
+  background-image:url('assets/sakura-bg.png');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
   overflow:hidden;
-}
-.top-fixed::after{
-  content:"🌸　🌸　🌸　🌸　🌸";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  opacity:.5;
-  z-index:1001;
-  font-size:22px;
-  letter-spacing:8px;
-  animation:sakuraFloat 18s linear infinite;
-}
-@keyframes sakuraFloat{
-  0%{
-    transform:translateY(-30px);
-    opacity:0;
-  }
-  15%{opacity:.5}
-  85%{opacity:.5}
-  100%{
-    transform:translateY(430px);
-    opacity:0;
-  }
 }
 
 
