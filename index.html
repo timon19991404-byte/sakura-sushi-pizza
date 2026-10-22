@@ -25,17 +25,22 @@ form{display:grid;gap:9px;margin-top:12px}input,textarea{width:100%;padding:12px
 footer{text-align:center;padding:24px 14px;color:var(--muted);font-size:12px}
 @media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero h1{font-size:30px}}
 @media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-</style>
+.top-fixed{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#fff1f4;
+}</style>
 </head>
 <body>
-<header>
+<div class="top-fixed"><header>
 <div class="logo">🌸 САКУРА</div>
 <div class="sub">SUSHI • ROLLS • PIZZA • ДОСТАВКА</div>
 <button onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})" style="position:fixed;right:16px;bottom:20px;z-index:9999;background:#e60033;color:white;border:0;border-radius:18px;padding:16px 22px;font-size:20px;font-weight:bold;box-shadow:0 5px 18px rgba(230,0,51,0.45);">🛒 <span id="cartCount">0</span> · <span id="cartSum">0</span> сом</button>
 </header>
 <section class="hero"><h1>Даамдуу көз ирмемдер</h1><p>Сүйүктүү роллдоруңузду жана пиццаңызды тандаңыз. Заказ WhatsApp аркылуу жөнөтүлөт.</p><div class="contact"><a href="https://wa.me/996503141501" target="_blank" rel="noopener">WhatsApp заказ</a><a href="tel:+996506991404">Чалуу: +996 506 991 404</a></div></section>
 <div class="notice">🛵 Араван району боюнча жеткирүү. Жеткирүү акысы аралыкка жараша эсептелет.</div>
-<nav class="sticky" id="categories"></nav>
+<nav class="sticky" id="categories"></nav></div>
 <main><div id="menu"></div><section class="cartpanel" id="order"><h2 class="section-title">🛒 Заказ себети</h2><div id="cartItems">Азырынча себет бош.</div><p><strong>Товарлардын суммасы: <span id="total">0</span> сом</strong></p><small style="color:#766a70">Жеткирүү акысы аралыкка жараша өзүнчө эсептелет.</small><form id="orderForm"><input id="customerName" placeholder="Атыңыз" required><input id="customerPhone" type="tel" placeholder="Телефон номериңиз" required><textarea id="customerAddress" placeholder="Жеткирүү дареги" required></textarea><textarea id="customerNote" placeholder="Кошумча каалоо (милдеттүү эмес)"></textarea><button class="send" type="submit">WhatsApp аркылуу заказ берүү</button></form></section></main>
 <footer>🌸 САКУРА • Суши жана пицца жеткирүү<br>WhatsApp: +996 503 141 501 • Телефон: +996 506 991 404</footer>
 <script>
