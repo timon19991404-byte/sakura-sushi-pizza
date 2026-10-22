@@ -54,7 +54,7 @@ header{
 <footer>🌸 САКУРА • Суши жана пицца жеткирүү<br>WhatsApp: +996 503 141 501 • Телефон: +996 506 991 404</footer>
 <script>
    
-const products=[
+let products=[
    
 {name:'Лава',cat:'Муздак роллдор',price:240,img:'lava.png',desc:'Күрүч, Philadelphia сыры, краб, бадыраң, Лава соусу · 8 даана · 240 г'},
 {name:'Сливочный',cat:'Муздак роллдор',price:220,img:'slivochny.png',desc:'Күрүч, Philadelphia сыры, лосось, бадыраң, тобико · 8 даана · 220 г'},
@@ -132,7 +132,7 @@ renderMenu();renderCart();
   const KEY='sb_publishable_HJu0aBiE_jlPhD644iI_pw_j6grrjiq';
   try {
     const response = await fetch(
-      URL + '/rest/v1/sakura_products?select=name,image_url&image_url=not.is.null',
+      URL + '/rest/v1/sakura_products?select=*',
       {
         headers: {
           apikey: KEY,
@@ -141,10 +141,10 @@ renderMenu();renderCart();
       }
     );
     if (!response.ok) return;
-    const products = await response.json();
+    const dbproducts = await response.json();
     document.querySelectorAll('.card').forEach(card => {
       const name = card.querySelector('.name')?.textContent?.trim();
-      const product = products.find(
+      const dbproduct = products.find(
         item => item.name?.trim().toLowerCase() === name.trim().toLowerCase() && item.image_url
       );
       const img = card.querySelector('img');
