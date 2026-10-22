@@ -129,7 +129,21 @@ renderMenu();renderCart();
 <script>
 (async () => {
   const URL = 'https://esnmfwhzwrmcvokfgqld.supabase.co';
-  const KEY='sb_publishable_HJu0aBiE_jlPhD644iI_pw_j6grrjiq';
+  const KEY = 'sb_publishable_HJu0aBiE_jlPhD644iI_pw_j6grrjiq';
+
+  const categoryNames = {
+    cold: 'Муздак роллдор',
+    colf: 'Муздак роллдор',
+    fried: 'Куурулган роллдор',
+    baked: 'Запечённый роллдор',
+    author: 'Автордук роллдор',
+    mini: 'Мини-роллдор',
+    pizza: 'Пицца 30 см'
+  };
+
+  const normalize = value =>
+    String(value || '').trim().toLowerCase();
+
   try {
     const response = await fetch(
       URL + '/rest/v1/sakura_products?select=*',
@@ -140,21 +154,63 @@ renderMenu();renderCart();
         }
       }
     );
-    if (!response.ok) return;
+
+    if (!response.ok) {
+      console.error('Supabase катасы:', await response.text());
+      return;
+    }
+
     const dbproducts = await response.json();
-    document.querySelectorAll('.card').forEach(card => {
-      const name = card.querySelector('.name')?.textContent?.trim();
-      const dbproduct = dbproducts.find(
-        item => item.name?.trim().toLowerCase() === name.trim().toLowerCase() && item.image_url
+
+    if (!Array.isArray(dbproducts) || !dbproducts.length) {
+      console.warn('Supabase менюсу бош. Эски меню сакталды.');
+      return;
+    }
+
+    const oldProducts = products.slice();
+    const merged = oldProducts.map(old => {
+      const item = dbproducts.find(
+        p => normalize(p.name) === normalize(old.name)
       );
-      const img = card.querySelector('img');
-      if (dbproduct && img) {
-        img.src = dbproduct.image_url;
-        img.style.display = '';
-      }
+
+      if (!item) return old;
+
+      return {
+        ...old,
+        price: item.price != null ? Number(item.price) : old.price,
+        cat: categoryNames[normalize(item.category)]
+          || old.cat,
+        img: item.image_url || old.img
+      };
     });
+
+    dbproducts.forEach(item => {
+      const exists = merged.some(
+        p => normalize(p.name) === normalize(item.name)
+      );
+
+      if (exists || !item.name) return;
+
+      merged.push({
+        name: item.name,
+        cat: categoryNames[normalize(item.category)]
+          || item.category
+          || 'Муздак роллдор',
+        price: item.price == null ? null : Number(item.price),
+        img: item.image_url || '',
+        desc: item.price == null
+          ? 'Баасы такталат'
+          : ''
+      });
+    });
+
+    products = merged;
+    renderMenu();
+    renderCart();
+
+    console.log('САКУРА менюсу жаңырды:', products.length);
   } catch (error) {
-    console.log('Сүрөттөрдү жүктөө катасы:', error);
+    console.error('Менюну жаңыртуу катасы:', error);
   }
 })();
 </script>
