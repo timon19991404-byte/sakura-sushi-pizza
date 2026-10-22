@@ -169,9 +169,34 @@ renderMenu();renderCart();
 
     const oldProducts = products.slice();
     const merged = oldProducts.map(old => {
-      const item = dbproducts.find(
-        p => normalize(p.name) === normalize(old.name)
-      );
+const categoryKey = value => {
+  const v = normalize(value);
+
+  if (['cold', 'colf', 'муздак роллдор'].includes(v))
+    return 'cold';
+
+  if (['fried', 'куурулган роллдор'].includes(v))
+    return 'fried';
+
+  if (['baked', 'запечённый роллдор'].includes(v))
+    return 'baked';
+
+  if (['author', 'автордук роллдор'].includes(v))
+    return 'author';
+
+  if (['mini', 'мини-роллдор'].includes(v))
+    return 'mini';
+
+  if (['pizza', 'пицца 30 см'].includes(v))
+    return 'pizza';
+
+  return v;
+};
+
+const item = dbproducts.find(p =>
+  normalize(p.name) === normalize(old.name) &&
+  categoryKey(p.category) === categoryKey(old.cat)
+);
 
       if (!item) return old;
 
