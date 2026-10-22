@@ -144,12 +144,12 @@ renderMenu();renderCart();
     const dbproducts = await response.json();
     document.querySelectorAll('.card').forEach(card => {
       const name = card.querySelector('.name')?.textContent?.trim();
-      const dbproduct = products.find(
+      const dbproduct = dbproducts.find(
         item => item.name?.trim().toLowerCase() === name.trim().toLowerCase() && item.image_url
       );
       const img = card.querySelector('img');
-      if (product && img) {
-        img.src = product.image_url;
+      if (dbproduct && img) {
+        img.src = dbproduct.image_url;
         img.style.display = '';
       }
     });
