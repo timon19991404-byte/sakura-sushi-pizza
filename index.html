@@ -89,11 +89,11 @@ function renderCats(){[...catEl.children].forEach(b=>{b.classList.toggle('active
 function renderMenu(){const root=document.getElementById('menu');root.innerHTML='';const shown=products.filter(p=>active==='Баары'||p.cat===active);let last='';shown.forEach((p)=>{if(p.cat!==last){const h=document.createElement('h2');h.className='section-title';h.textContent=p.cat;root.appendChild(h);const g=document.createElement('div');g.className='grid';g.id='g'+products.indexOf(p);root.appendChild(g);last=p.cat}const g=root.lastElementChild;const i=products.indexOf(p);const card=document.createElement('article');card.className='card';const img=document.createElement('img');img.src='assets/'+p.img;img.alt=p.name;img.loading='lazy';img.onerror=()=>{img.style.display='none'};const info=document.createElement('div');info.className='info';info.innerHTML='<div class="name"></div><div class="desc"></div><div class="price"></div>';info.querySelector('.name').textContent=p.name;info.querySelector('.desc').textContent=p.desc;info.querySelector('.price').textContent=p.price===null?'Баасы такталат':p.price+' сом';const btn=document.createElement('button')btn.type='button';btn.className='add';btn.textContent=p.price===null?'Баасын тактоо':'Себетке кошуу';btn.disabled=p.price===null;btn.onclick=()=>add(i);info.appendChild(btn);
 const qty=document.createElement('div');qty.textContent=cart[i]?'🛒 Себетте: '+cart[i]+' даана':'';info.appendChild(qty);
 const controls=document.createElement('div');
-const minus=document.createElement('button');minus.type='button';
+const minus=document.createElement('button');
 minus.textContent='−';
    minus.style.cssText='width:52px;height:46px;font-size:28px;font-weight:bold;border:0;border-radius:12px;background:#f8dce5;color:#b52d50;margin-right:8px;';                                                                                                                                                                                 
 minus.onclick=()=>change(i,-1);
-const plus=document.createElement('button');plus.type='button';
+const plus=document.createElement('button');
 plus.textContent='+'
   ;plus.style.cssText='width:52px;height:46px;font-size:28px;font-weight:bold;border:0;border-radius:12px;background:#b52d50;color:white;';
 plus.onclick=()=>add(i);
