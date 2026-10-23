@@ -231,7 +231,10 @@ renderMenu();renderCart();
         price: item.price != null
           ? Number(item.price)
           : old.price,
-        cat: categoryName(item.category),
+        cat: categoryName(item.category),desc: [
+  item.description || old.desc || '',
+  item.weight_grams != null ? `${item.weight_grams} г` : ''
+].filter(Boolean).join(' · '),
         img: item.image_url || old.img
       };
     });
