@@ -251,7 +251,7 @@ renderMenu();renderCart();
         cat: categoryName(item.category),
         price: item.price == null ? null : Number(item.price),
         img: item.image_url || '',
-        desc: item.price == null ? 'Баасы такталат' : ''
+        desc: [item.description || (item.price == null ? 'Баасы такталат' : ''), item.weight_grams != null ? `${item.weight_grams} г` : ''].filter(Boolean).join(' · ')
       });
     });
 
