@@ -17,7 +17,30 @@
 </main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 (()=>{const ADMIN='1d6b4241-b49a-49dc-9d9f-3be9429c2786',BUCKET='sakura-images';const $=id=>document.getElementById(id);let db=null,items=[];const msg=(id,s)=>$(id).textContent=s;
 function connect(){let url=localStorage.getItem('sakura_sb_url')||$('url').value.trim().replace(/\/$/,''),key=localStorage.getItem('sakura_sb_key')||$('key').value.trim();if(!url||!key)return false;db=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true}});$('url').value=url;$('key').value=key;return true}
-$('connect').onclick=()=>{let url=$('url').value.trim().replace(/\/$/,''),key=$('key').value.trim();if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)||!key){msg('connectStatus','Project URL же public key туура эмес.');return}localStorage.setItem('sakura_sb_url',url);localStorage.setItem('sakura_sb_key',key);db=window.supabase.createClient(url,key);msg('connectStatus','Туташтыруу сакталды. Эми администратор болуп кириңиз.')};
+$('connect').onclick=()=>{
+ try{
+  const url=$('url').value.trim().replace(/\/+$/,'');
+  const key=$('key').value.trim();
+
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)||!key){
+   msg('connectStatus','Project URL же public key туура эмес.');
+   return;
+  }
+
+  if(!window.supabase||!window.supabase.createClient){
+   msg('connectStatus','Supabase жүктөлгөн жок. Баракты жаңыртыңыз.');
+   return;
+  }
+
+  localStorage.setItem('sakura_sb_url',url);
+  localStorage.setItem('sakura_sb_key',key);
+  db=window.supabase.createClient(url,key);
+  msg('connectStatus','Туташуу сакталды. Эми администратор болуп кириңиз.');
+ }catch(e){
+  msg('connectStatus','Ката: '+e.message);
+ }
+};
+
 function show(on){$('editor').classList.toggle('hidden',!on);$('list').classList.toggle('hidden',!on);$('logout').classList.toggle('hidden',!on);$('login').classList.toggle('hidden',on)}
 async function authorized(){if(!db&&!connect())return false;const {data,error}=await db.auth.getUser();return !error&&data.user&&data.user.id===ADMIN}
 $('login').onclick=async()=>{if(!connect()){msg('authStatus','Адегенде Supabase туташтыруусун сактаңыз.');return}msg('authStatus','Кирип жатат…');try{const {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;if(!data.user||data.user.id!==ADMIN){await db.auth.signOut();throw Error('Бул аккаунтка администратор уруксаты берилген эмес.')} $('password').value='';show(true);msg('authStatus','Ийгиликтүү кирдиңиз.');await load()}catch(e){msg('authStatus','Кирүү катасы: '+e.message)}};
