@@ -194,8 +194,7 @@ const categoryKey = value => {
 };
 
 const item = dbproducts.find(p =>
-  normalize(p.name) === normalize(old.name) &&
-  categoryKey(p.category) === categoryKey(old.cat)
+  normalize(p.name) === normalize(old.name)
 );
 
       if (!item) return old;
