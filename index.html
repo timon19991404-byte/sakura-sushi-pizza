@@ -126,28 +126,53 @@ function renderCart(){const root=document.getElementById('cartItems');root.inner
 document.getElementById('orderForm').addEventListener('submit',e=>{e.preventDefault();const ids=Object.keys(cart);if(!ids.length){alert('Адегенде менюдан баасы көрсөтүлгөн товарды себетке кошуңуз. Баасы тактала элек товарлар боюнча WhatsAppка өзүнчө кайрылсаңыз болот.');return}let msg='САКУРА заказ%0A';ids.forEach(k=>{const p=products[k];msg+=encodeURIComponent(p.name+' × '+cart[k]+' — '+(p.price*cart[k])+' сом')+'%0A'});msg+='%0AЖалпы сумма: '+document.getElementById('total').textContent+' сом%0A';msg+='Аты: '+encodeURIComponent(document.getElementById('customerName').value)+'%0A';msg+='Телефон: '+encodeURIComponent(document.getElementById('customerPhone').value)+'%0A';msg+='Дарек: '+encodeURIComponent(document.getElementById('customerAddress').value)+'%0A';msg+='Кошумча: '+encodeURIComponent(document.getElementById('customerNote').value);window.location.href='https://wa.me/996503141501?text='+msg});
 renderMenu();renderCart();
 </script> 
+
 <script>
 (async () => {
   const URL = 'https://esnmfwhzwrmcvokfgqld.supabase.co';
   const KEY = 'sb_publishable_HJu0aBiE_jlPhD644iI_pw_j6grrjiq';
 
-  const categoryNames = {
-    cold: 'Муздак роллдор',
-    colf: 'Муздак роллдор',
-    fried: 'Куурулган роллдор',
-    baked: 'Запечённый роллдор',
-    author: 'Автордук роллдор',
-    mini: 'Мини-роллдор',
-    pizza: 'Пицца 30 см'
-  };
-
   const normalize = value =>
     String(value || '').trim().toLowerCase();
+
+  function categoryKey(value) {
+    const v = normalize(value);
+
+    if (['cold', 'colf', 'муздак роллдор'].includes(v))
+      return 'cold';
+    if (['fried', 'куурулган роллдор', 'куурулган ролдор'].includes(v))
+      return 'fried';
+    if (['baked', 'запечённый роллдор', 'запеченный роллдор'].includes(v))
+      return 'baked';
+    if (['author', 'автордук роллдор'].includes(v))
+      return 'author';
+    if (['mini', 'мини-роллдор'].includes(v))
+      return 'mini';
+    if (['pizza', 'пицца 30 см'].includes(v))
+      return 'pizza';
+
+    return v;
+  }
+
+  function categoryName(value) {
+    const key = categoryKey(value);
+    const names = {
+      cold: 'Муздак роллдор',
+      fried: 'Куурулган роллдор',
+      baked: 'Запечённый роллдор',
+      author: 'Автордук роллдор',
+      mini: 'Мини-роллдор',
+      pizza: 'Пицца 30 см'
+    };
+
+    return names[key] || value || 'Муздак роллдор';
+  }
 
   try {
     const response = await fetch(
       URL + '/rest/v1/sakura_products?select=*',
       {
+        cache: 'no-store',
         headers: {
           apikey: KEY,
           Authorization: 'Bearer ' + KEY
@@ -156,79 +181,92 @@ renderMenu();renderCart();
     );
 
     if (!response.ok) {
-      console.error('Supabase катасы:', await response.text());
+      console.error(
+        'Supabase катасы:',
+        response.status,
+        await response.text()
+      );
       return;
     }
 
     const dbproducts = await response.json();
 
-    if (!Array.isArray(dbproducts) || !dbproducts.length) {
+    if (!Array.isArray(dbproducts) || dbproducts.length === 0) {
       console.warn('Supabase менюсу бош. Эски меню сакталды.');
       return;
     }
 
     const oldProducts = products.slice();
+
     const merged = oldProducts.map(old => {
-const categoryKey = value => {
-  const v = normalize(value);
+      const sameName = dbproducts.filter(item =>
+        normalize(item.name) === normalize(old.name)
+      );
 
-  if (['cold', 'colf', 'муздак роллдор'].includes(v))
-    return 'cold';
+      const sameCategory = sameName.filter(item =>
+        categoryKey(item.category) === categoryKey(old.cat)
+      );
 
-  if (['fried', 'куурулган роллдор'].includes(v))
-    return 'fried';
-
-  if (['baked', 'запечённый роллдор'].includes(v))
-    return 'baked';
-
-  if (['author', 'автордук роллдор'].includes(v))
-    return 'author';
-
-  if (['mini', 'мини-роллдор'].includes(v))
-    return 'mini';
-
-  if (['pizza', 'пицца 30 см'].includes(v))
-    return 'pizza';
-
-  return v;
-};
-
-const item = dbproducts.find(p =>
-  normalize(p.name) === normalize(old.name)
-);
+      // Аталышы жана категориясы дал келген товарды тандайбыз.
+      // Категория дал келбесе, аталышы жалгыз болгон учурда гана колдонобуз.
+      const item = sameCategory[0] ||
+        (sameName.length === 1 ? sameName[0] : null);
 
       if (!item) return old;
 
       return {
         ...old,
-        price: item.price != null ? Number(item.price) : old.price,
-        cat: categoryNames[normalize(item.category)]
-          || old.cat,
+        price: item.price != null
+          ? Number(item.price)
+          : old.price,
+        cat: categoryName(item.category),
         img: item.image_url || old.img
       };
     });
 
     dbproducts.forEach(item => {
-      const exists = merged.some(
-        p => normalize(p.name) === normalize(item.name)
+      if (!item.name) return;
+
+      const exists = merged.some(p =>
+        normalize(p.name) === normalize(item.name) &&
+        categoryKey(p.cat) === categoryKey(item.category)
       );
 
-      if (exists || !item.name) return;
+      if (exists) return;
 
       merged.push({
         name: item.name,
-        cat: categoryNames[normalize(item.category)]
-          || item.category
-          || 'Муздак роллдор',
+        cat: categoryName(item.category),
         price: item.price == null ? null : Number(item.price),
         img: item.image_url || '',
-        desc: item.price == null
-          ? 'Баасы такталат'
-          : ''
+        desc: item.price == null ? 'Баасы такталат' : ''
       });
     });
 
     products = merged;
+
+    // Жаңы товарлардын категорияларын да баскычтарга кошобуз.
+    cats.splice(0, cats.length, 'Баары',
+      ...new Set(products.map(p => p.cat))
+    );
+
+    catEl.innerHTML = '';
+
+    cats.forEach(c => {
+      const b = document.createElement('button');
+      b.className = 'cat' + (c === active ? ' active' : '');
+      b.textContent = c;
+      b.onclick = () => {
+        active = c;
+        renderCats();
+        renderMenu();
+      };
+      catEl.appendChild(b);
+    });
+
+    if (!cats.includes(active)) active = 'Баары';
+
+    renderCats();
     renderMenu();
     renderCart();
 
