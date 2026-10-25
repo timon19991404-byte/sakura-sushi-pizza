@@ -162,22 +162,34 @@ renderMenu();renderCart();
       return 'author';
     if (['mini', 'мини-роллдор'].includes(v))
       return 'mini';
-    if (['pizza', 'пицца 30 см'].includes(v))
-      return 'pizza';
+    
+if (['pizza', 'пицца 30 см'].includes(v))
+  return 'pizza';
 
-    return v;
+if (['sets', 'set', 'сеттер', 'сет', 'сеты'].includes(v))
+  return 'sets';
+
+if (['other', 'башка', 'прочее'].includes(v))
+  return 'other';
+
+return v;
+
   }
 
   function categoryName(value) {
     const key = categoryKey(value);
-    const names = {
-      cold: 'Муздак роллдор',
-      fried: 'Куурулган роллдор',
-      baked: 'Запечённый роллдор',
-      author: 'Автордук роллдор',
-      mini: 'Мини-роллдор',
-      pizza: 'Пицца 30 см'
-    };
+    
+const names = {
+  cold: 'Муздак роллдор',
+  fried: 'Куурулган роллдор',
+  baked: 'Запечённый роллдор',
+  author: 'Автордук роллдор',
+  mini: 'Мини-роллдор',
+  pizza: 'Пицца 30 см',
+  sets: 'Сеттер',
+  other: 'Башка'
+};
+
 
     return names[key] || value || 'Муздак роллдор';
   }
